@@ -54,9 +54,9 @@ class _Paper(object):
 def main():
     f = OpenCsv('./pubmed_result.csv')
     for p in f:
-        print(p.title)
-        print(p.authors)
-        print(p.PMID)
+        print((p.title))
+        print((p.authors))
+        print((p.PMID))
 
 
 if __name__ == '__main__':

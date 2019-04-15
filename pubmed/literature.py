@@ -6,12 +6,12 @@
 '''
 Get literature information via PubMed id
 '''
-from __future__ import unicode_literals
 
-from urllib2 import urlopen
+
+from urllib.request import urlopen
 from pyquery import PyQuery as pq
 from bs4 import BeautifulSoup as BS
-
+import requests
 
 class PubMed(object):
     '''
@@ -23,12 +23,14 @@ class PubMed(object):
         self.url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={ids}'.format(
             ids=self.PMID)
         # use bs to standardize the xml content
-        self.xml = pq(str(BS(urlopen(self.url).read())))
+        #self.xml = pq(str(BS(urlopen(self.url).read(),features="lxml")))
+        xm='\n'.join(str(BS(requests.get(self.url).content,features="lxml")).split('\n')[1:])
+        self.xml = pq(xm)
 
         # add attr for instance
         # such as: pm.title, pm.authors and pm.getTitle(), pm.getAuthors()
-        PubMed_funs = filter(lambda x: not x.startswith(
-            '_'), PubMed.__dict__.keys())
+        PubMed_funs = [x for x in list(PubMed.__dict__.keys()) if not x.startswith(
+            '_')]
         for fname in PubMed_funs:
             setattr(self, fname.replace('get_', '', 1), getattr(self, fname)())
             parts = fname.split('_')
@@ -56,9 +58,9 @@ class PubMed(object):
 
 if __name__ == '__main__':
     import unittest
-    print 'loading literature information...',
+    print(('loading literature information...',))
     pm = PubMed(22012762)
-    print 'ok!\nreading...'
+    print('ok!\nreading...')
 
     class TestPubMed(unittest.TestCase):
 

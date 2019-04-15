@@ -30,7 +30,8 @@ Get literature information via PubMed ID, such as the author, title, journal_nam
       zip_safe=True,
       install_requires=[
           'beautifulsoup4',
-          'pyquery'
+          'pyquery',
+          'requests'
       ],
       entry_points="""
       # -*- Entry points: -*-

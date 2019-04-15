@@ -22,8 +22,8 @@ class TestPubMed(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    print 'loading literature information...',
+    print('loading literature information...', end=' ')
     pm = PubMed(22012762)
-    print 'ok!'
+    print('ok!')
 
     unittest.main()
